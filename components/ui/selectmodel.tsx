@@ -9,8 +9,13 @@ import {
   } from "@/components/ui/select"
 
 
+interface ModelOption {
+  label: string;
+  value: string;
+}
+
 interface SelectDemoProps {
-    modelNames: string[];
+    modelNames: ModelOption[];
     onModelChange: (selectedModel: string) => void; // Callback to notify the parent about the selected model
 
   }
@@ -26,8 +31,8 @@ export default function SelectModel({modelNames, onModelChange} : SelectDemoProp
             <SelectGroup>
               <SelectLabel>Model Names</SelectLabel>
               {modelNames.map((modelName) => (
-                <SelectItem key={modelName} value={modelName}>
-                  {modelName}
+                <SelectItem key={modelName.value} value={modelName.value}>
+                  {modelName.label}
                 </SelectItem>
               ))}
             </SelectGroup>

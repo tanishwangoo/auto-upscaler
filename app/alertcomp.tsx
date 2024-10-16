@@ -2,32 +2,33 @@ import { useState, useEffect } from "react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons"
 
-const AlertComponent: React.FC<{ errorMessage: string | null }> = ({ errorMessage }) => {  
-  
-  // const [isVisible, setIsVisible] = useState(true);
-  // // Hide the alert after 5 seconds
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsVisible(false);
-  //   }, 5000);
-
-  //   // Cleanup the timer when the component is unmounted
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  // if (!isVisible) return null; // Don't render the alert if it's not visible
-
+const AlertComponent: React.FC<{ errorMessage: string | null, alertVisible: boolean }> = ({ errorMessage, alertVisible }) => {  
   return (
-    <Alert
-      variant="destructive"
-      className="transition transform duration-500 ease-in-out opacity-100 scale-100"
-    >
-      <ExclamationTriangleIcon className="h-4 w-4" />
-      <AlertTitle>Error</AlertTitle>
-      <AlertDescription>
-        {errorMessage}
-      </AlertDescription>
-    </Alert>
+    <div className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300 ease-in-out ${
+      alertVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+    }`}>
+      {/* Background overlay */}
+      <div className={`fixed inset-0 bg-black bg-opacity-30 transition-all duration-300 ease-in-out ${
+        alertVisible ? 'backdrop-blur-sm' : ''
+      }`} />
+      
+      {/* Alert box */}
+      <Alert
+        variant="destructive"
+        className={`z-50 bg-white p-4 rounded-lg transition-transform duration-[1500ms] ease-in-out ${
+          alertVisible
+            ? 'opacity-100 scale-100'  // Pop-in effect
+            : 'opacity-0 scale-90'     // Pop-out effect
+        }`}
+      >
+        <ExclamationTriangleIcon className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>
+          {errorMessage}
+        </AlertDescription>
+      </Alert>
+    </div>
   );
-}
+};
+
 export default AlertComponent;
