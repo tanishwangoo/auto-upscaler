@@ -1,147 +1,135 @@
-"use client";
-
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useRef, useEffect, useState } from "react";
+"use client"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { ArrowRight, Image as ImageIcon, Zap, Shield } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation";
-import UserCard from "@/components/ui/userdetailscard";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import ImageWithButton from "@/components/ui/imagewithbuttons";
-import { useAuthInfo, useLogoutFunction } from "@propelauth/react";
-import { FiLogOut, FiUpload } from "react-icons/fi";
+import { RedirectToLogin } from "@propelauth/react"
+import { useAuthInfo } from "@propelauth/react"
+import {useRedirectFunctions} from "@propelauth/react"
 
-export default function Home() {
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
 
-  const userInfo = useAuthInfo();
-  const logout = useLogoutFunction();
-  const router = useRouter();
-  const [images, setImages] = useState<string[]>([]);
+export default function LandingPage() {
+    const {
+    redirectToLoginPage, 
+} = useRedirectFunctions()
 
-  const handleSignOut = async () => {
-    await logout(true);
-  };
-
-  const handleRedirect = () => {
-    router.push("/create-task");
-  };
-
-  const fetchImages = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/fetch-images", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${userInfo.accessToken}`,
-          Accept: "application/json",
-        },
-      });
-      if (!response.ok) {
-        console.error(`${response.status} : ${response}`);
-      }
-      const user_data: string[] = await response.json();
-      console.log(user_data);
-      setImages(user_data);
-      setCount(user_data.length);
-    } catch (e) {
-      console.error(`Error fetching Images from MDB, ${e}`);
+    const router = useRouter();
+    const user = useAuthInfo();
+    const handleLoginRedirect = ()=>{
+        if (!user.isLoggedIn){
+            redirectToLoginPage({postLoginRedirectUrl :
+                '/dashboard'
+             })
+        }
+        else {
+            router.push('/dashboard');
+        }
     }
-  };
-
-  const handleRemoveImg = (index: number) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
-    setCount((prevCount) => prevCount - 1);
-  };
-
-  useEffect(() => {
-    fetchImages();
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Navigation Bar */}
-      <nav className="bg-white shadow">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex justify-between">
-            <div className="flex space-x-4">
-              {/* Logo */}
-              <div>
-                <a href="#" className="flex items-center py-5 px-2 text-gray-700">
-                  <Image src="/logo.png" alt="Logo" width={32} height={32} />
-                  <span className="font-bold text-xl ml-2">
-                    Auto Image Upscaler
-                  </span>
-                </a>
+    return (
+    <div className="flex flex-col min-h-screen">
+      <header className="px-4 lg:px-6 h-14 flex items-center">
+        <Link className="flex items-center justify-center" href="#">
+          <span className="font-bold">Image Upscaler</span>
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
+            Features
+          </Link>
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#how-it-works">
+            How It Works
+          </Link>
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#pricing">
+            Pricing
+          </Link>
+        </nav>
+      </header>
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+              <img
+                alt="Upscaled image comparison"
+                height="100"
+                src= "upscale.png"
+                width="100"
+              />
+              <div className="flex flex-col justify-center space-y-4">
+                <div className="space-y-2">
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                    Transform Your Images with AI
+                  </h1>
+                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                    Enhance your photos with our cutting-edge AI upscaling technology. Turn low-res images into
+                    high-quality masterpieces in seconds.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                  <Button onClick={handleLoginRedirect}
+                    className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                    Get Started
+                  </Button>
+                </div>
               </div>
             </div>
-            {/* Secondary Nav */}
-            <div className="flex items-center space-x-1">
-              <Button
-                variant="ghost"
-                className="flex items-center"
-                onClick={handleSignOut}
-              >
-                <FiLogOut className="mr-2" />
-                Logout
-              </Button>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted" id="features">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Key Features</h2>
+            <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
+              <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
+                <Zap className="h-8 w-8 mb-2 text-primary" />
+                <h3 className="text-xl font-bold text-center">Lightning Fast</h3>
+                <p className="text-muted-foreground text-center">Upscale your images in seconds, not minutes.</p>
+              </div>
+              <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
+                <ImageIcon className="h-8 w-8 mb-2 text-primary" />
+                <h3 className="text-xl font-bold text-center">Superior Quality</h3>
+                <p className="text-muted-foreground text-center">
+                  Our AI delivers crisp, clear results every time.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <div className="flex flex-col mx-auto max-w-6xl p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-semibold text-gray-800">
-            Welcome back, {userInfo.user?.email}!
-          </h1>
-          <Button onClick={handleRedirect} className="flex items-center">
-            <FiUpload className="mr-2" />
-            Upscale New Image
-          </Button>
-        </div>
-
-        {/* Your Images Section */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-            Your Images
-          </h2>
-          {images.length > 0 ? (
-            <div className="relative flex flex-col gap-5">
-              {images.map((imageUrl, index) => (
-                <motion.div
-                  key={index}
-                  className="relative bg-white rounded-lg shadow overflow-hidden"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <ImageWithButton
-                    imageUrl={imageUrl}
-                    index={index}
-                    onRemove={() => handleRemoveImg(index)}
-                  />
-                </motion.div>
-              ))}
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32" id="how-it-works">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">How It Works</h2>
+            <div className="grid gap-6 lg:grid-cols-3">
+              <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
+                <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold">
+                  1
+                </div>
+                <h3 className="text-xl font-bold text-center">Upload</h3>
+                <p className="text-muted-foreground text-center">
+                  Simply drag and drop your image or click to upload.
+                </p>
+              </div>
+              <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
+                <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold">
+                  2
+                </div>
+                <h3 className="text-xl font-bold text-center">Process</h3>
+                <p className="text-muted-foreground text-center">Our AI works its magic to enhance your image.</p>
+              </div>
+              <div className="flex flex-col items-center space-y-2 border-gray-800 p-4 rounded-lg">
+                <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold">
+                  3
+                </div>
+                <h3 className="text-xl font-bold text-center">Download</h3>
+                <p className="text-muted-foreground text-center">Get your high-resolution image instantly.</p>
+              </div>
             </div>
-          ) : (
-            <p className="text-gray-600">You have no images yet.</p>
-          )}
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="bg-white mt-auto">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <p className="text-center text-gray-600">
-            © {new Date().getFullYear()} Auto Image Upscaler. All rights reserved.
-          </p>
-        </div>
+          </div>
+        </section>
+      </main>
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+        <p className="text-xs text-muted-foreground">
+          © 2024 ImageUpscaler. All rights reserved.
+        </p>
       </footer>
     </div>
-  );
+  )
 }

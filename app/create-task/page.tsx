@@ -6,7 +6,8 @@ import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import UserCard from "@/components/ui/userdetailscard";
 import AlertComponent from "../alertcomp";
-
+import { FiLogOut, FiUpload } from "react-icons/fi";
+import Image from "next/image";
 import { useAuthInfo, useLogoutFunction } from "@propelauth/react";
 import {
   Card,
@@ -85,10 +86,43 @@ export default function CreateTask() {
     }
 
   };
+
+  const handlelogout = async () => {
+    await logout(true);
+  }
   return (
-    <div className="flex flex-col items-center m-2 gap-5 justify-center v-screen">
-      <Badge className="align-center text-2xl">Auto Image Upscaler - Powered by Open Source. </Badge>
-      <Button variant="outline" className="align-left">User: {userInfo.user?.email} {userInfo.user?.firstName}</Button>
+    <div className="min-h-screen bg-gray-100">
+
+<nav className="bg-white shadow">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex justify-between">
+            <div className="flex space-x-4">
+              {/* Logo */}
+              <div className="flex flex-row items-center gap-5">
+                <a href="#" className="flex items-center py-5 px-2 text-gray-700">
+                  <Image src="/upscale.png" alt="Logo" width={32} height={32} />
+                  <span className="font-bold text-xl ml-2">
+                    Auto Image Upscaler
+                  </span>
+                </a>
+                <Button variant='ghost' className="text-sm ml-2">User: {userInfo.user?.email}</Button>
+              </div>
+            </div>
+            {/* Secondary Nav */}
+            <div className="flex items-center space-x-1">
+              <Button
+                variant="ghost"
+                className="flex items-center"
+                onClick={handlelogout}
+              >
+             
+                <FiLogOut className="mr-2" />
+                Logout
+              </Button>
+            </div>
+          </div>
+        </div>
+      </nav>
       <Card className="m-20">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Add your image</CardTitle>
@@ -114,6 +148,14 @@ export default function CreateTask() {
       </Card>
       
       {alertOn && <AlertComponent alertVisible={alertOn} errorMessage={errorMessage} />}
+       {/* Footer */}
+       <footer className="bg-white fixed bottom-0 w-full">
+        <div className="max-w-6xl mx-auto px-4 py-6">
+          <p className="text-center text-gray-600 text-sm">
+            © {new Date().getFullYear()} Auto Image Upscaler. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

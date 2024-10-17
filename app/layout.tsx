@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-
 import ClientAuthProvider from "@/lib/auth-proxy";
 
 const geistSans = localFont({
@@ -27,9 +26,9 @@ export default function RootLayout({children}: {children: React.ReactNode}){
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ClientAuthProvider>
+ 
+      <ClientAuthProvider>
         {children}
-      
       </ClientAuthProvider>
     </body>
     </html>

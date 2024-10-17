@@ -4,66 +4,64 @@ import { Button } from './button';
 import { useAuthInfo } from '@propelauth/react';
 
 interface ImageWithButtonProps {
-    imageUrl: string;
-    index: number;
-    onRemove: () => void;
+  imageUrl: string;
+  index: number;
+  onRemove: () => void;
 }
 
 const ImageWithButton: React.FC<ImageWithButtonProps> = ({ imageUrl, index, onRemove }) => {
-    const userInfo = useAuthInfo();
-    const [isHovered, setIsHovered] = useState<boolean>(false);
-    const [removeURL, setRemoveURL] = useState<boolean>(false);
-    const handleMouseEnter = (): void => setIsHovered(true);
-    const handleMouseLeave = (): void => setIsHovered(false);
+  const userInfo = useAuthInfo();
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [removeURL, setRemoveURL] = useState<boolean>(false);
+  const handleMouseEnter = (): void => setIsHovered(true);
+  const handleMouseLeave = (): void => setIsHovered(false);
 
-    const openInNewTab = (): void => {
-        window.open(imageUrl, '_blank');
-    };
+  const openInNewTab = (): void => {
+    window.open(imageUrl, '_blank');
+  };
 
-    const handleRemoveImg = async () => {
-        try {
-            const response = await fetch(`${imageUrl}/remove`, {
-                method: "DELETE",
-                headers: {
-                    'Authorization': `Bearer ${userInfo.accessToken}`
-                }
-
-            });
-            if (response.ok) {
-                setRemoveURL(true);
-                onRemove();
-            }
+  const handleRemoveImg = async () => {
+    try {
+      const response = await fetch(`${imageUrl}/remove`, {
+        method: "DELETE",
+        headers: {
+          'Authorization': `Bearer ${userInfo.accessToken}`
         }
-        catch (e) {
-            console.log(e);
-        }
-    }
 
-    if (removeURL) {
-        return null;
+      });
+      if (response.ok) {
+        setRemoveURL(true);
+        onRemove();
+      }
     }
-    return (
-        <div
-            className="relative w-1/2 h-1/2"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-        >
-            {/* Image Component */}
-            <Image
-                src={imageUrl}
-                alt={`Image ${index + 1}`}
-                layout="responsive"
-                width={500}
-                height={300}
-                objectFit="cover"
-                objectPosition="center"
-                loading="lazy"
-                className={`w-1/2 h-fit rounded-lg transition-filter duration-300 ${
-                  isHovered ? "filter blur-sm" : ""
-                }`}
-            />
+    catch (e) {
+      console.log(e);
+    }
+  }
 
-            {/* Button Components */}
+  if (removeURL) {
+    return null;
+  }
+  return (
+    <div
+      // Reduce the container size for a miniaturized effect
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Image Component */}
+      <Image
+        src={imageUrl}
+        alt={`Image ${index + 1}`}
+        layout="intrinsic" // Use intrinsic layout for fixed-sized images
+        width={100}
+        height={100}
+        objectFit="cover"
+        objectPosition="center"
+        loading="lazy"
+        className={`rounded-lg transition-filter duration-300 ${isHovered ? "filter blur-sm" : ""}`}
+      />
+
+      {/* Button Components */}
       {isHovered && (
         <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4">
           <Button
@@ -82,8 +80,8 @@ const ImageWithButton: React.FC<ImageWithButtonProps> = ({ imageUrl, index, onRe
           </Button>
         </div>
       )}
-        </div>
-    );
+    </div>
+  );
 };
 
 export default ImageWithButton;
