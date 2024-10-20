@@ -7,6 +7,7 @@ import ImgConfigCard from "@/components/ui/imgconfigcard";
 export default function ImgConfigPage() {
   const searchParams = useSearchParams();
   const filePath = searchParams.get("filePath");
+  console.log(filePath);
 
   if (!filePath) {
     return <p className="text-red-500">No file path provided.</p>;

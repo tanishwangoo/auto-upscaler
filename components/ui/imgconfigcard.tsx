@@ -50,14 +50,14 @@ export default function ImgConfigCard({ filePath }: ImageConfigComponentProps) {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userInfo.accessToken}`,
+            'Authorization': `Bearer ${userInfo.accessToken}`
           },
           body: JSON.stringify(payload)
         })
         if (response.ok) {
           const data = await response.json();
           const OutputFilename = (data['outputfilename']);
-          router.push(`/job-result?InputfilePath=${encodeURIComponent(imgname)}&OutputFilePath=${encodeURIComponent(OutputFilename)}`);
+          router.push(`/job-result?InputfileName=${encodeURIComponent(imgname)}&OutputFileName=${encodeURIComponent(OutputFilename)}`);
         }
 
       }

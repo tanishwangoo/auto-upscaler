@@ -1,7 +1,8 @@
 "use client";
-import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
+import ImageCompareSlider from "@/components/ui/imgcompareslider"
 import { useSearchParams } from "next/navigation";
 import { Button } from '@/components/ui/button';
+import { useAuthInfo } from '@propelauth/react';
 import Link from 'next/link';
 import {
     ResizableHandle,
@@ -16,11 +17,61 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { useEffect, useState } from 'react';
+import { headers } from 'next/headers';
+
 export default function ResultCompare() {
     const searchParams = useSearchParams();
-    const InputfilePath = searchParams.get("InputfilePath");
-    const OutputfilePath = searchParams.get("OutputFilePath");
-    const outputURL = `http://localhost:5000/upscaled/${OutputfilePath}`;
+    const InputfileName = searchParams.get("InputfileName");
+    const userInfo = useAuthInfo();
+    const [downldURL, setDownldURL] = useState('');
+    
+    
+    const getDownloadLink = async (temp: string)=>{
+
+        try{
+            const response = await fetch(`http://localhost:5000/upscaled/${temp}`, { 
+                method: 'GET',
+                headers:
+                {
+                    'Authorization': `Bearer ${userInfo.accessToken}`
+                }
+            })
+
+            if (!response.ok){
+                console.error(`Error fetching S3 download link: ${response.statusText}`);
+            }
+            const data = await response.json();
+            console.log(data.downloadURL);
+            setDownldURL(data.downloadURL);
+        }
+        catch (error) {
+            console.error("Error fetching the download link:", error);
+        }
+    }
+
+    useEffect(() => {
+        const outputFileName = searchParams.get("OutputFileName");
+    
+        if (outputFileName) {
+          fetch(`http://localhost:5000/upscaled/${outputFileName}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${userInfo.accessToken}`
+            }
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`Error fetching S3 download link: ${response.statusText}`);
+              }
+              return response.json();
+            })
+            .then((data) => setDownldURL(data.downloadURL))
+            .catch((error) => console.error("Error fetching the download link:", error));
+        } else {
+          console.error("OutputFileName not found in query params.");
+        }
+      }, [searchParams, userInfo.accessToken]);
 
     return (
         <div className='flex flex-col align-center items-center'>
@@ -29,18 +80,7 @@ export default function ResultCompare() {
 
             {/* Card Content with image comparison */}
             <CardContent className="flex justify-center border border-gray-200 p-4">
-                <ReactCompareSlider
-                    itemOne={<ReactCompareSliderImage
-                        src={`http://localhost:5000/${InputfilePath}`}
-                        alt="Input Image"
-                        style={{ width: '100%', height: '100%'}}  // Ensure images scale within the slider
-                    />}
-                    itemTwo={<ReactCompareSliderImage
-                        src={`http://localhost:5000/upscaled/${OutputfilePath}`}
-                        alt="Output Upscaled Image"
-                        style={{ width: '50%'}}  // Ensure images scale within the slider
-                    />}
-                />
+                <ImageCompareSlider InputfileName={InputfileName} downldURL={downldURL}></ImageCompareSlider>
             </CardContent>
 
             {/* Card Footer with Buttons */}
@@ -48,9 +88,11 @@ export default function ResultCompare() {
                 <Button asChild className="bg-green-500">
                     <Link href="/">Upscale New</Link>
                 </Button>
-                <Button asChild variant="outline">
-                    <a download href={outputURL}>Download the image</a>
+                <a href={downldURL}>
+                <Button variant="outline">
+                    Download the image
                 </Button>
+                </a>
             </CardFooter>
         </Card>
         </div>
