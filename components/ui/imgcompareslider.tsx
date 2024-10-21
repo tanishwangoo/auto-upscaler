@@ -24,7 +24,7 @@ const ImageCompareSlider: React.FC<{ InputfileName: string | null, downldURL: st
       onPointerUp={() => setLabelOpacity(1)}    // Show labels when dragging ends
       itemOne={
         <ReactCompareSliderImage
-          src={`http://localhost:5000/${InputfileName}`}
+          src={`https://upscaleimage-backend.work/${InputfileName}`}
           alt="Input Image"
           style={{ width: '100%', height: '100%' }}  // Ensure images scale within the slider
         />
