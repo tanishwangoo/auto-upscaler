@@ -86,9 +86,9 @@ export default function ResultCompare() {
             {/* Card Footer with Buttons */}
             <CardFooter className="flex gap-4 justify-center w-full">
                 <Button asChild className="bg-green-500">
-                    <Link href="/">Upscale New</Link>
+                    <Link href="/dashboard">Upscale New</Link>
                 </Button>
-                <a href={downldURL}>
+                <a target= '_blank' href={downldURL}>
                 <Button variant="outline">
                     Download the image
                 </Button>

@@ -41,7 +41,6 @@ export default function Home() {
         console.error(`${response.status} : ${response}`);
       }
       const user_data: string[] = await response.json();
-      console.log(user_data);
       setImages(user_data);
       setCount(user_data.length);
     } catch (e) {

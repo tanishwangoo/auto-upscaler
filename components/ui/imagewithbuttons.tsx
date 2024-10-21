@@ -15,14 +15,13 @@ const ImageWithButton: React.FC<ImageWithButtonProps> = ({ imageUrl, index, onRe
   const [removeURL, setRemoveURL] = useState<boolean>(false);
   const handleMouseEnter = (): void => setIsHovered(true);
   const handleMouseLeave = (): void => setIsHovered(false);
-
   const openInNewTab = (): void => {
     window.open(imageUrl, '_blank');
   };
 
   const handleRemoveImg = async () => {
     try {
-      const response = await fetch(`${imageUrl}/remove`, {
+      const response = await fetch(`http://localhost:5000/${imageUrl}/remove`, {
         method: "DELETE",
         headers: {
           'Authorization': `Bearer ${userInfo.accessToken}`
@@ -53,7 +52,7 @@ const ImageWithButton: React.FC<ImageWithButtonProps> = ({ imageUrl, index, onRe
         src={imageUrl}
         alt={`Image ${index + 1}`}
         layout="intrinsic" // Use intrinsic layout for fixed-sized images
-        width={100}
+        width={250}
         height={100}
         objectFit="cover"
         objectPosition="center"
