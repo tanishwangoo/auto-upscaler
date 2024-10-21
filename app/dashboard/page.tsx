@@ -13,9 +13,6 @@ import { useAuthInfo } from "@propelauth/react";
 import { useLogoutFunction } from "@propelauth/react";
 
 export default function Home() {
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
-
   const userInfo = useAuthInfo();
   const logout = useLogoutFunction();
   const router = useRouter();
@@ -42,15 +39,14 @@ export default function Home() {
       }
       const user_data: string[] = await response.json();
       setImages(user_data);
-      setCount(user_data.length);
     } catch (e) {
       console.error(`Error fetching Images from MDB, ${e}`);
     }
   };
 
-  const handleRemoveImg = (index: number) => {
+  const handleRemoveImg = (imageUrl: string) => {
     setImages((prevImages) => {
-      return prevImages.filter((_, i) => i !== index);
+      return prevImages.filter((i) => i !== imageUrl);
     });
   };
 
@@ -124,7 +120,7 @@ export default function Home() {
                   <ImageWithButton
                     imageUrl={imageUrl}
                     index={index}
-                    onRemove={() => handleRemoveImg(index)}
+                    onRemove={() => handleRemoveImg(imageUrl)}
                   />
                 </motion.div>
               ))}
