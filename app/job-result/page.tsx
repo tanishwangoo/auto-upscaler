@@ -25,36 +25,12 @@ export default function ResultCompare() {
     const InputfileName = searchParams.get("InputfileName");
     const userInfo = useAuthInfo();
     const [downldURL, setDownldURL] = useState('');
-    
-    
-    const getDownloadLink = async (temp: string)=>{
-
-        try{
-            const response = await fetch(`http://localhost:5000/upscaled/${temp}`, { 
-                method: 'GET',
-                headers:
-                {
-                    'Authorization': `Bearer ${userInfo.accessToken}`
-                }
-            })
-
-            if (!response.ok){
-                console.error(`Error fetching S3 download link: ${response.statusText}`);
-            }
-            const data = await response.json();
-            console.log(data.downloadURL);
-            setDownldURL(data.downloadURL);
-        }
-        catch (error) {
-            console.error("Error fetching the download link:", error);
-        }
-    }
 
     useEffect(() => {
         const outputFileName = searchParams.get("OutputFileName");
     
         if (outputFileName) {
-          fetch(`http://localhost:5000/upscaled/${outputFileName}`, {
+          fetch(`https://upscaleimage-backend.work/upscaled/${outputFileName}`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${userInfo.accessToken}`

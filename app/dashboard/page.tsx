@@ -30,7 +30,7 @@ export default function Home() {
 
   const fetchImages = async () => {
     try {
-      const response = await fetch("http://localhost:5000/fetch-images", {
+      const response = await fetch("https://upscaleimage-backend.work/fetch-images", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${userInfo.accessToken}`,
@@ -49,9 +49,9 @@ export default function Home() {
   };
 
   const handleRemoveImg = (index: number) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
-    setCount((prevCount) => prevCount - 1);
+    setImages((prevImages) => {
+      return prevImages.filter((_, i) => i !== index);
+    });
   };
 
 
@@ -136,7 +136,7 @@ export default function Home() {
       
 
       {/* Footer */}
-      <footer className="bg-white fixed bottom-0 w-full">
+      <footer className="bg-white text-xs bottom-0 w-full">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <p className="text-center text-gray-600">
             © {new Date().getFullYear()} Auto Image Upscaler. All rights reserved.

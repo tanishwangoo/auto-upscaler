@@ -51,11 +51,8 @@ const ImageWithButton: React.FC<ImageWithButtonProps> = ({ imageUrl, index, onRe
       <Image
         src={imageUrl}
         alt={`Image ${index + 1}`}
-        layout="intrinsic" // Use intrinsic layout for fixed-sized images
         width={250}
         height={100}
-        objectFit="cover"
-        objectPosition="center"
         loading="lazy"
         className={`rounded-lg transition-filter duration-300 ${isHovered ? "filter blur-sm" : ""}`}
       />
@@ -64,14 +61,14 @@ const ImageWithButton: React.FC<ImageWithButtonProps> = ({ imageUrl, index, onRe
       {isHovered && (
         <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4">
           <Button
-            className="p-2 bg-blue-500 text-white rounded-md opacity-90 transition-opacity duration-300 ease-in-out hover:opacity-100"
+            className="p-2 bg-blue-500 text-white rounded-md opacity-90 transition-all duration-300 ease-in-out hover:text-white hover:bg-blue-500 hover:opacity-100 hover:scale-105 hover:shadow-lg"
             variant="outline"
             onClick={openInNewTab}
           >
             Open Image in New Tab
           </Button>
           <Button
-            className="p-2 bg-red-500 text-white rounded-md opacity-90 transition-opacity duration-300 ease-in-out hover:opacity-100"
+            className="p-2 bg-red-500 text-white rounded-md opacity-90 transition-all duration-300 ease-in-out hover:opacity-100 hover:scale-105 hover:shadow-lg"
             variant="destructive"
             onClick={handleRemoveImg}
           >

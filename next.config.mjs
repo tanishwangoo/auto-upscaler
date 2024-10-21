@@ -7,6 +7,12 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
         port: '',
         pathname: '/dhbbmn2dq/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'upscaleimage-backend.work',
+        port: '',
+        pathname: '/**',
       }
       ],
         domains: ['localhost'],

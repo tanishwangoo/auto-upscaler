@@ -46,7 +46,7 @@ export default function ImgConfigCard({ filePath }: ImageConfigComponentProps) {
       console.log(payload)
 
       try {
-        const response = await fetch("http://localhost:5000/create-upscale-job", {
+        const response = await fetch("https://upscaleimage-backend.work/create-upscale-job", {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export default function ImgConfigCard({ filePath }: ImageConfigComponentProps) {
           {/* Responsive Image */}
           <div className="w-full max-w-sm">
             <Image
-              src={`http://localhost:5000${filePath}`}
+              src={`https://upscaleimage-backend.work${filePath}`}
               width={300}  // Adjust the width for a smaller size
               height={300} // Adjust the height proportionally
               alt="Selected Image"

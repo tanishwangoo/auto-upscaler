@@ -64,7 +64,7 @@ export default function CreateTask() {
     console.log(formData);
 
     try {
-      const response = await fetch("http://localhost:5000/incomingimage", {
+      const response = await fetch("https://upscaleimage-backend.work/incomingimage", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${userInfo.accessToken}`,
