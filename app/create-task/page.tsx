@@ -8,6 +8,7 @@ import UserCard from "@/components/ui/userdetailscard";
 import AlertComponent from "../alertcomp";
 import { FiLogOut, FiUpload } from "react-icons/fi";
 import Image from "next/image";
+import ErrorCMP from "./error";
 import { useAuthInfo, useLogoutFunction } from "@propelauth/react";
 import {
   Card,
@@ -27,6 +28,8 @@ export default function CreateTask() {
   const fileInputRef = useRef<HTMLInputElement | null>(null); // referenec for Image input field
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [alertOn, setAlertOn] = useState(false);
+  const [hasBackendError, setHasBackendError] = useState(false); // New state to track errors
+
   const clearInput = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -81,6 +84,7 @@ export default function CreateTask() {
       router.push(`/img-config?filePath=${encodeURIComponent(filepath)}`);
     }
     catch (err: unknown) {
+      setHasBackendError(true);
       console.log(err);
       setErrorMessage((err as Error).message);
     }
@@ -90,10 +94,11 @@ export default function CreateTask() {
   const handlelogout = async () => {
     await logout(true);
   }
+  if(hasBackendError) return (<ErrorCMP reset={()=>router.push('/')}></ErrorCMP>) // if Backend is not Live, will display error and redirect to home
+                                                                                  //page
   return (
     <div className="min-h-screen bg-gray-100">
-
-<nav className="bg-white shadow">
+      <nav className="bg-white shadow">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-between">
             <div className="flex space-x-4">
@@ -115,7 +120,7 @@ export default function CreateTask() {
                 className="flex items-center"
                 onClick={handlelogout}
               >
-             
+
                 <FiLogOut className="mr-2" />
                 Logout
               </Button>
@@ -146,10 +151,10 @@ export default function CreateTask() {
           </div>
         </CardContent>
       </Card>
-      
+
       {alertOn && <AlertComponent alertVisible={alertOn} errorMessage={errorMessage} />}
-       {/* Footer */}
-       <footer className="bg-white fixed bottom-0 w-full">
+      {/* Footer */}
+      <footer className="bg-white fixed bottom-0 w-full">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <p className="text-center text-gray-600 text-sm">
             © {new Date().getFullYear()} Auto Image Upscaler. All rights reserved.

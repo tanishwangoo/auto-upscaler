@@ -132,12 +132,10 @@ export default function Home() {
       
 
       {/* Footer */}
-      <footer className="bg-white text-xs bottom-0 w-full">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <p className="text-center text-gray-600">
-            © {new Date().getFullYear()} Auto Image Upscaler. All rights reserved.
-          </p>
-        </div>
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t text-gray-500">
+        <p className="text-xs text-center">
+          © 2024 ImageUpscaler. All rights reserved.
+        </p>
       </footer>
     </div>
   );

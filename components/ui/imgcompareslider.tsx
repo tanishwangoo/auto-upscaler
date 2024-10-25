@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { ReactCompareSlider, ReactCompareSliderImage, ReactCompareSliderHandle } from 'react-compare-slider';
 
-const ImageCompareSlider: React.FC<{ InputfileName: string | null, downldURL: string | undefined}> = ({ InputfileName, downldURL }) => {
-  const [labelOpacity, setLabelOpacity] = useState(1);
+
+interface ImageSliderProps{
+  InputfileName: string | null
+  downldURL: string | undefined
+  InputLabel: string | null
+  OutputLabel:  string | null
+}
+const ImageCompareSlider: React.FC<ImageSliderProps> = ({ InputfileName, downldURL, InputLabel, OutputLabel }) => {  const [labelOpacity, setLabelOpacity] = useState(1);
 
   const labelStyle = {
     fontSize: '.75rem',
@@ -41,11 +47,13 @@ const ImageCompareSlider: React.FC<{ InputfileName: string | null, downldURL: st
           <ReactCompareSliderHandle />
           {/* Left label (Input Image) */}
           <div style={{ ...labelStyle, translate: '-100% 0', left: 0 }}>
-            Input Image
+            <h1>Input Image</h1>
+            <p>{InputLabel}</p>
           </div>
           {/* Right label (Upscaled Image) */}
           <div style={{ ...labelStyle, translate: '100% 0', right: 0 }}>
-            Upscaled Image
+          <h1>Upscaled Image</h1>
+          <p>{OutputLabel}</p>
           </div>
         </div>
       }

@@ -3,6 +3,7 @@ import { useState } from "react"
 import SelectModel from "./selectmodel";
 import { useRouter } from "next/navigation";
 import { useAuthInfo } from "@propelauth/react";
+import UpscaleError from "./upscaleError";
 import {
   Card,
   CardContent,
@@ -18,7 +19,6 @@ interface ImageConfigComponentProps {
   filePath: string;
 }
 
-
 const modelNames = [
   { label: "General Photo (Ultrasharp)", value: "ultrasharp" },
   { label: "General Photo (Real-ESRGAN)", value: "realesrgan-x4plus" },
@@ -27,12 +27,14 @@ const modelNames = [
   { label: "General Photo (Remacri)", value: "remacri" },
   { label: "Digital Art (realesrgan-x4plus-anime)", value: "realesrgan-x4plus-anime" },
 ];
+
 export default function ImgConfigCard({ filePath }: ImageConfigComponentProps) {
   const userInfo = useAuthInfo();
   const router = useRouter();
   const [value, setValue] = useState(2);
   const [selectedModel, setSelectedModel] = useState<string | undefined>(undefined);
-  const filename = filePath.indexOf("")
+  const [hasBackendError, setHasBackendError] = useState(false); // New state to track errors
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const imgname = filePath.substring(1);
   const handleUpscaleJob = async () => {
@@ -59,7 +61,10 @@ export default function ImgConfigCard({ filePath }: ImageConfigComponentProps) {
           const OutputFilename = (data['outputfilename']);
           router.push(`/job-result?InputfileName=${encodeURIComponent(imgname)}&OutputFileName=${encodeURIComponent(OutputFilename)}`);
         }
-
+        else{
+          if(response.status == 501) setErrorMessage('File Uploaded is too big. Max is ~ 10 Mb');
+          setHasBackendError(true);
+        }
       }
       catch (err) {
         console.log(err);
@@ -69,6 +74,10 @@ export default function ImgConfigCard({ filePath }: ImageConfigComponentProps) {
       }
 
     }
+  }
+
+  if (hasBackendError){
+    return <UpscaleError error={errorMessage} reset={()=>router.push('/create-task')}/>
   }
   return (
     <div className="relative w-full max-w-xl mx-auto">

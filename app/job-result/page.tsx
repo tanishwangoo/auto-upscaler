@@ -20,33 +20,60 @@ import {
 import { useEffect, useState } from 'react';
 import { headers } from 'next/headers';
 
+
+interface RequestData {
+  inputfilename: string;
+  outputFileName: number;
+}
+
 export default function ResultCompare() {
     const searchParams = useSearchParams();
     const InputfileName = searchParams.get("InputfileName");
     const userInfo = useAuthInfo();
     const [downldURL, setDownldURL] = useState('');
-
+    const [inputsize, setInputsize] = useState('');
+    const [outputsize, setOutputsize] = useState('');
+    const headers =  {
+      'Authorization': `Bearer ${userInfo.accessToken}`
+    }
     useEffect(() => {
         const outputFileName = searchParams.get("OutputFileName");
-    
-        if (outputFileName) {
-          fetch(`https://upscaleimage-backend.work/upscaled/${outputFileName}`, {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${userInfo.accessToken}`
-            }
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error(`Error fetching S3 download link: ${response.statusText}`);
-              }
-              return response.json();
-            })
-            .then((data) => setDownldURL(data.downloadURL))
-            .catch((error) => console.error("Error fetching the download link:", error));
-        } else {
+        if (!outputFileName) {
           console.error("OutputFileName not found in query params.");
+          return; // Exit if OutputFileName is not present
         }
+          const fetchDwnldURL = fetch(`https://upscaleimage-backend.work/upscaled/${outputFileName}`, {
+            method: 'GET',
+            headers
+          })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Error fetching S3 download link: ${response.statusText}`);
+            }
+            return response.json();
+          })
+          .then((data) => setDownldURL(data.downloadURL))
+          .catch((error) => console.error("Error fetching the download link:", error));
+        
+          const fetchSizes = fetch(`https://upscaleimage-backend.work/get-sizes` , {
+            method: 'GET',
+            headers
+          })
+          .then((response)=>{
+            if (!response.ok) {
+              throw new Error(`Couldn't get sizes ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) =>{
+            setOutputsize(data['OutputImageData'])
+            setInputsize(data['InputImageData'])
+          })
+          .catch((err)=>console.error("Error fetching sizes:", err));
+        
+            Promise.all([fetchDwnldURL, fetchSizes]).catch((err) =>
+            console.error("Error with one of the fetch calls:", err)
+            );
       }, [searchParams, userInfo.accessToken]);
 
     return (
@@ -56,7 +83,7 @@ export default function ResultCompare() {
 
             {/* Card Content with image comparison */}
             <CardContent className="flex justify-center border border-gray-200 p-4">
-                <ImageCompareSlider InputfileName={InputfileName} downldURL={downldURL}></ImageCompareSlider>
+                <ImageCompareSlider OutputLabel={outputsize} InputLabel={inputsize} InputfileName={InputfileName} downldURL={downldURL}></ImageCompareSlider>
             </CardContent>
 
             {/* Card Footer with Buttons */}
