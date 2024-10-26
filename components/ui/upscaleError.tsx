@@ -24,8 +24,9 @@ export default function UpscaleError({
         <div className="flex items-center justify-center gap-5 min-h-screen bg-gray-100">
             <Card className="bg-red-500 text-white shadow-xl transform transition-all duration-300 hover:shadow-2xl hover:scale-105 rounded-lg max-w-md mx-auto">
                 <CardHeader>
-                    <CardTitle className="text-2xl font-semibold">
-                        <MdErrorOutline /> Couldn't Upscale </CardTitle>
+                <MdErrorOutline /> 
+                <CardTitle className="text-2xl font-semibold">
+                {"Couldn't Upscale"} </CardTitle>
                 </CardHeader>
                 <CardContent className="text-lg">
                     <p>{error}</p>
