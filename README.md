@@ -1,7 +1,7 @@
 ---
 
 # Auto Image Upscaler
-
+Check it out at https://upscaleimage.xyz !
 This project is a web application built with Next.js that uses AI to upscale images, allowing users to transform low-resolution images into high-quality ones. It leverages modern web technologies, including **TypeScript**, **Tailwind CSS**, **Radix UI**, and **React** components, to deliver a fast, reliable, and secure user experience.
 
 ## Features
@@ -103,5 +103,3 @@ This project is licensed under the [MIT License](LICENSE).
 We welcome contributions! If you have suggestions for improvements, please fork the repository and submit a pull request.
 
 ---
-
-This README provides a comprehensive overview of the codebase, helping users and developers understand the project's purpose, structure, and setup.
