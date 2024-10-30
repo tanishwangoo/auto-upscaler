@@ -1,5 +1,3 @@
-Here's an enhanced README file for your codebase:
-
 ---
 
 # Auto Image Upscaler
