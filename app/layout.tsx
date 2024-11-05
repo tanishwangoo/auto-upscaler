@@ -26,7 +26,7 @@ export default function RootLayout({children}: {children: React.ReactNode}){
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
- 
+
       <ClientAuthProvider>
         {children}
       </ClientAuthProvider>
