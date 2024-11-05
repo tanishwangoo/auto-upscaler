@@ -1,105 +1,149 @@
----
+Here's a comprehensive README.md for the Auto Image Upscaler project:
 
 # Auto Image Upscaler
-Check it out at https://upscaleimage.xyz !
-This project is a web application built with Next.js that uses AI to upscale images, allowing users to transform low-resolution images into high-quality ones. It leverages modern web technologies, including **TypeScript**, **Tailwind CSS**, **Radix UI**, and **React** components, to deliver a fast, reliable, and secure user experience.
 
-## Features
+![Version](https://img.shields.io/badge/version-0.1.0-blue)
+![Next.js](https://img.shields.io/badge/Next.js-14.2.15-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-beta-yellow)
 
-- **AI-Powered Image Upscaling**: Provides several AI models to upscale images with different styles and qualities.
-- **User Authentication**: Includes secure user login and management through **PropelAuth**.
-- **Dynamic Image Comparison**: Side-by-side slider view to compare before-and-after images.
-- **Flexible UI**: Components built with **Tailwind CSS** and Radix UI to ensure a responsive, user-friendly interface.
-- **Error Handling**: Real-time alerts and error handling for smooth user experience.
+A modern web application for AI-powered image upscaling, providing high-quality image enhancement using various AI models.
 
-## Table of Contents
+## 🌟 Features
 
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Key Components](#key-components)
-- [Environment Variables](#environment-variables)
-- [Available Scripts](#available-scripts)
-- [Deployment](#deployment)
-- [License](#license)
+- **Multiple AI Models Support**
+  - General Photo (Ultrasharp)
+  - Real-ESRGAN (x4plus & x4fast)
+  - Ultramix Balanced
+  - Remacri
+  - Digital Art Specialized Models
 
-## Getting Started
+- **Advanced Image Processing**
+  - Customizable scaling strength (1x-5x)
+  - Real-time image comparison
+  - Support for multiple image formats (JPEG, PNG, WebP)
 
-To get started, you need to have **Node.js** and **npm** installed. Clone the repository and follow the steps below:
+- **User Management**
+  - Secure authentication via PropelAuth
+  - Personal image dashboard
+  - Image history tracking
 
+- **Interactive UI**
+  - Drag-and-drop image upload
+  - Real-time preview
+  - Before/After comparison slider
+  - Responsive design
+
+## 🚀 Installation
+
+### Prerequisites
+
+- Node.js (Latest LTS version)
+- NPM or Yarn
+- PropelAuth account
+
+### Setup
+
+1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/auto-image-upscaler.git
-cd auto-image-upscaler
+git clone <repository-url>
+cd autoupscaler-ui
+```
+
+2. Install dependencies:
+```bash
 npm install
 ```
 
-### Environment Setup
-
-The project requires specific environment variables to run. Add these variables to a `.env.local` file in the `lib` directory:
-
-```plaintext
-NEXT_PUBLIC_AUTH_URL='https://auth.upscaleimage.xyz'
+3. Configure environment variables:
+Create a `.env.local` file with:
+```env
+NEXT_PUBLIC_AUTH_URL='your-propelauth-url'
 ```
 
-### Running the Project
-
-You can start the development server with:
-
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
-Then open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
+## 💻 Usage
 
-## Project Structure
+1. **Authentication**
+   - Log in using PropelAuth credentials
+   - Access your personal dashboard
 
-Here's an overview of the main directories and files:
+2. **Upscaling Images**
+   - Upload an image from the dashboard
+   - Select an AI model
+   - Adjust scaling strength
+   - Process and download the enhanced image
 
-- **`/app`**: Contains the core pages and components used in the app.
-- **`/components/ui`**: Houses reusable UI components like buttons, alerts, cards, and sliders.
-- **`/lib`**: Includes authentication and utility functions.
-- **`/public`**: Stores static assets like images and fonts.
-- **`tailwind.config.ts`**: Tailwind CSS configuration with custom color schemes and styles.
+3. **Managing Images**
+   - View upscaling history
+   - Compare original and enhanced versions
+   - Download or delete processed images
 
-## Key Components
+## 🔧 Technology Stack
 
-### 1. Image Upload and Configuration
-Users can upload images and choose AI models for upscaling. This feature is handled by `CreateTask` and `ImgConfigCard` components.
+- **Frontend Framework**: Next.js 14
+- **UI Components**: 
+  - Shadcn UI
+  - Tailwind CSS
+  - Radix UI
+- **Authentication**: PropelAuth
+- **Image Processing**: Custom backend API
+- **State Management**: React Hooks
+- **Styling**: TailwindCSS with custom configurations
 
-### 2. Image Comparison
-Users can view side-by-side comparisons of original and upscaled images using the `ImageCompareSlider` component.
+## 📁 Project Structure
 
-### 3. Error Handling
-Components such as `AlertComponent` and `UpscaleError` provide real-time feedback for any issues during image processing.
-
-### 4. Authentication
-Secure user authentication and session handling are managed by `ClientAuthProvider` with **PropelAuth** integration.
-
-## Environment Variables
-
-- **`NEXT_PUBLIC_AUTH_URL`**: This is the URL for the authentication provider, required for user login and security.
-
-## Available Scripts
-
-- **`dev`**: Runs the app in development mode.
-- **`build`**: Builds the app for production.
-- **`start`**: Runs the app in production mode.
-- **`lint`**: Checks for linting errors using ESLint.
-
-## Deployment
-
-To deploy this application, you can use **Vercel** or any other hosting provider that supports Next.js.
-
-```bash
-npm run build
-npm run start
+```
+├── app/                  # Next.js app directory
+│   ├── create-task/     # Image upload functionality
+│   ├── dashboard/       # User dashboard
+│   ├── img-config/      # Image configuration
+│   └── job-result/      # Processing results
+├── components/          # Reusable UI components
+│   └── ui/             # Shadcn UI components
+├── lib/                 # Utility functions and auth
+└── public/             # Static assets
 ```
 
-## License
+## 🤝 Contributing
 
-This project is licensed under the [MIT License](LICENSE).
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
-## Contributing
+### Development Guidelines
 
-We welcome contributions! If you have suggestions for improvements, please fork the repository and submit a pull request.
+- Follow TypeScript best practices
+- Maintain component modularity
+- Write meaningful commit messages
+- Update documentation as needed
 
----
+## 🔜 Future Improvements
+
+- [ ] Batch processing support
+- [ ] Additional AI models integration
+- [ ] Advanced image editing features
+- [ ] Mobile app development
+- [ ] API rate limiting and optimization
+- [ ] Enhanced error handling
+- [ ] Offline processing capabilities
+
+## ⚠️ Requirements
+
+- Image size limit: ~10MB
+- Supported formats: JPEG, PNG, WebP
+- Modern browser with JavaScript enabled
+- Stable internet connection
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🔗 Links
