@@ -1,5 +1,3 @@
-Here's a comprehensive README.md for the Auto Image Upscaler project:
-
 # Auto Image Upscaler
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue)
@@ -147,3 +145,4 @@ npm run dev
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🔗 Links
+https://www.upscaleimage.xyz
