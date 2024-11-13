@@ -89,7 +89,7 @@ export default function LandingPage(): JSX.Element {
 
         {/* Slider Section */}
         <section className="container mx-auto flex flex-col justify-center items-center p-10">
-          <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl mb-12 text-gray-800 dark:text-white">Don't settle for Low-Res 🚫</h1>
+          <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl mb-12 text-gray-800 dark:text-white">{"Don't settle for Low-Res🚫"}</h1>
           <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg w-full max-w-4xl aspect-[16/9]">
             <ReactCompareSlider
               onPointerDown={() => setLabelOpacity(0)}
