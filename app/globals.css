@@ -128,3 +128,27 @@ body {
   10%,70%  {background-size:100% 205%,var(--s,0) 100%}
   70%,100% {background-position: top,center}
 }
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.3;
+  filter: blur(3rem);  /* Optional: Adjust blur to create a softer effect */
+}
+
+/* Assign fixed random positions to each bubble */
+.bubble:nth-child(1) {
+  top: 10%; left: 20%;
+}
+.bubble:nth-child(2) {
+  top: 50%; left: 70%;
+}
+.bubble:nth-child(3) {
+  top: 30%; right: 25%;
+}
+.bubble:nth-child(4) {
+  bottom: 20%; left: 10%;
+}
+.bubble:nth-child(5) {
+  bottom: 30%; right: 15%;
+}
